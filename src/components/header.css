@@ -1,0 +1,15 @@
+.logo-container {
+    background-image: url(../public/HEDGEHOG.png);
+    background-position: center center;
+    height: 160px;
+    background-size: 80%;
+    max-width: 900px;
+    margin: auto;
+}
+
+.header-logo {
+    max-width: 100%; 
+    height: auto;
+    transform: translateY(-37%);
+    z-index: -1;
+}

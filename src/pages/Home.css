@@ -1,0 +1,14 @@
+.placeholder-text {
+    color: #000;
+    font-size: 24px;
+}
+
+.hedgehog-answer {
+    margin: 12px;
+    font-size: 18px;
+}
+
+.hedgehog-question {
+    font-size: 18px;
+    font-weight: bold;
+}
