@@ -4,11 +4,17 @@ import SearchForm from "../forms/searchForm"
 
 class Search extends React.Component {
     state = {"previousQuestions":  []};
+
     showAnswer = (answer, question) => {
+        this.setState({'preloading': false});
         const previousQuestions = this.state.previousQuestions.slice(); // Make a copy of the array
         previousQuestions.push({q: question, a: answer}); // Append the new object
         this.setState({previousQuestions}); // Update the state with the new array
       }
+    
+    showPreloader = () => {
+      this.setState({'preloading': true})
+    }
       
     componentDidUpdate() {
         this.scrollToBottom();
@@ -28,8 +34,24 @@ class Search extends React.Component {
                 <IonCardContent className="hedgehog-answer">{r.a}</IonCardContent>
                 </IonCard> 
             )}
+            {this.state.preloading === true && 
+              <IonCard>
+                <div class="center">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                </div>
+              </IonCard>
+            }
             <IonCard>
-              <SearchForm showAnswer={this.showAnswer}/>
+              <SearchForm showAnswer={this.showAnswer} showPreloader={this.showPreloader}/>
             </IonCard>
             <div ref={el => { this.el = el; }} />
           </div>

@@ -1,6 +1,13 @@
 import axios from 'axios';
 
-let prefix = 'http://localhost:5000/api'
+const getUrlPrefix =() => {
+  if (process.env.NODE_ENV === 'development') {
+    return'http://localhost:8000/api'
+  } else {
+    return'https://hedgehog-server.delightfulriver-36e65dc5.westeurope.azurecontainerapps.io/api'
+  }
+}
+
 
 const getRequest = async (endpoint, params) => {
   const headers = {
@@ -10,6 +17,8 @@ const getRequest = async (endpoint, params) => {
     withCredentials: true,
     headers: headers
   })
+
+  const prefix = getUrlPrefix()
 
   try {
     if (params) {

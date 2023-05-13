@@ -25,11 +25,12 @@ class SearchForm extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-        const data = 'q=' + this.state.value
-        let r = await getRequest('/ask', data)
-        const results = r.data.answer
-        const question = r.data.question
-        this.props.showAnswer(results, question)
+        this.props.showPreloader();
+        const data = 'q=' + this.state.value;
+        let r = await getRequest('/ask', data);
+        const results = r.data.answer;
+        const question = r.data.question;
+        this.props.showAnswer(results, question);
     }
 
     render() {

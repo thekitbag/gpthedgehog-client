@@ -12,9 +12,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@capacitor/android": "4.8.0",
     "@capacitor/app": "4.1.1",
     "@capacitor/core": "4.8.0",
     "@capacitor/haptics": "4.1.0",
+    "@capacitor/ios": "4.8.0",
     "@capacitor/keyboard": "4.1.1",
     "@capacitor/status-bar": "4.1.1",
     "@ionic/react": "^7.0.4",
@@ -22,6 +24,7 @@
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.4.0",
+    "dotenv": "^16.0.3",
     "ionicons": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -45,6 +48,5 @@
     "vite": "^4.1.0",
     "vitest": "^0.29.2"
   },
-  "description": "An Ionic project",
-  "proxy": "http://localhost:5000"
+  "description": "Simple wrapper around ChatGPT"
 }

@@ -1,5 +1,5 @@
 .logo-container {
-    background-image: url(../public/HEDGEHOG.png);
+    background-image: url('/HEDGEHOG.png');
     background-position: center center;
     height: 160px;
     background-size: 80%;
