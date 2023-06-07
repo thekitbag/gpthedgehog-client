@@ -1,4 +1,4 @@
-import { IonCol, IonContent, IonGrid, IonHeader, IonItem, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonCol, IonContent, IonGrid, IonPage, IonRow} from '@ionic/react';
 import Header from '../components/header'
 import Search from '../components/search';
 import './Home.css';

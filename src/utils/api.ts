@@ -1,6 +1,15 @@
 import axios from 'axios';
 
-const getUrlPrefix =() => {
+interface GetParams {
+  queryString: string
+}
+
+interface PostData {
+  data: object
+}
+
+
+const getUrlPrefix = () => {
   if (process.env.NODE_ENV === 'development') {
     return'http://localhost:8000/api'
   } else {
@@ -8,8 +17,7 @@ const getUrlPrefix =() => {
   }
 }
 
-
-const getRequest = async (endpoint, params) => {
+const getRequest = async (endpoint:string, params: GetParams) => {
   const headers = {
     'Content-Type': 'application/json'
   }
@@ -22,22 +30,22 @@ const getRequest = async (endpoint, params) => {
 
   try {
     if (params) {
-      const req = await instance.get(prefix + endpoint + '?' + params)
+      const req = await instance.get(prefix + endpoint + '?' + params.queryString)
       return req
     } else {
       const req = await instance.get(prefix + endpoint)
       return req
     }
 
-  } catch (err) {
+  } catch (err:any) {
     if(err.response.status === 401) {
-      window.location = '/login'
+      window.location.href = '/login'
     }
     console.log(err)
   }
 }
 
-const postRequest = async (endpoint, data) => {
+const postRequest = async (endpoint: string, data:PostData) => {
   const headers = {
     'Content-Type': 'application/json'
   }
@@ -47,6 +55,7 @@ const postRequest = async (endpoint, data) => {
   })
 
   try {
+      const prefix = getUrlPrefix()
       const req = await instance.post(prefix + endpoint, data)
       return req
   } catch (err) {
