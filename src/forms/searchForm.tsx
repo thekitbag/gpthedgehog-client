@@ -11,6 +11,7 @@ interface ButtonProps {
 interface SearchFormProps {
     showAnswer: (answer: string, question: string) => void;
     showPreloader: () => void;
+    firstQuestion: boolean;
 }
 
 interface SearchFormState {
@@ -23,6 +24,7 @@ class AskButton extends React.Component<ButtonProps> {
     }
 }
 
+//this form and tother one should inherit from a single hedgehogForm Component
 class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
 
     constructor(props: any) {
@@ -31,13 +33,12 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
     
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
     }
 
     handleChange(event: CustomEvent<InputChangeEventDetail>) {
         this.setState({value: event.detail.value || ''});
-    }
-    
-    
+    } 
     
     async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -57,6 +58,15 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
         this.setState({ value: '' });
     }
 
+    setPlaceholderText =() => {
+        if (this.props.firstQuestion === true){
+            return 'Ask me anything...'
+        }
+        else {
+            return 'Ask me something else...'
+        } 
+    }
+
     render() {
         return  <form onSubmit={this.handleSubmit}>
                     <IonGrid>
@@ -68,7 +78,7 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
                                     onIonInput={this.handleChange}
                                     value={this.state.value} 
                                     color="dark" 
-                                    placeholder="Ask me anything..." />
+                                    placeholder={this.setPlaceholderText()} />
                             </IonCol>
                         </IonRow>
                         <IonRow>

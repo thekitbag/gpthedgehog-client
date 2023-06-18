@@ -1,15 +1,21 @@
 import React from "react"
 import { IonCard, IonCardContent, IonCardHeader} from "@ionic/react"
 import SearchForm from "../forms/searchForm"
+import AnswerCard from "./answerCard";
 
 interface QuestionAnswerPair {
   q: string;
   a: string;
 }
 
+interface Threads {
+  questionAnswerPair: QuestionAnswerPair[]
+}
+
 interface SearchState {
-  previousQuestions: QuestionAnswerPair[];
+  previousQuestions: Threads[];
   preloading: boolean;
+  firstQuestion: boolean;
 }
 
 interface SearchProps {
@@ -27,14 +33,19 @@ class Search extends React.Component<SearchProps, SearchState> {
       this.state = {
         previousQuestions: [],
         preloading: false,
+        firstQuestion: true,
       };
     }
 
     showAnswer = (answer:string, question:string) => {
         this.setState({'preloading': false});
         const previousQuestions = this.state.previousQuestions.slice(); 
-        previousQuestions.push({q: question, a: answer}); 
+        const newThread = {
+          questionAnswerPair: [{ q: question, a: answer }],
+        };
+        previousQuestions.push(newThread);
         this.setState({previousQuestions});
+        this.setState({firstQuestion: false})
       }
     
     showPreloader = () => {
@@ -53,11 +64,8 @@ class Search extends React.Component<SearchProps, SearchState> {
         return (
           <div>
             {this.state.previousQuestions.length > 0 && 
-            this.state.previousQuestions.map(r =>
-                <IonCard key={r.q}>
-                <IonCardHeader className="hedgehog-question">{r.q}</IonCardHeader>
-                <IonCardContent className="hedgehog-answer">{r.a}</IonCardContent>
-                </IonCard> 
+            this.state.previousQuestions.map((r, index)  =>
+                <AnswerCard thread={r.questionAnswerPair} key={index} />
             )}
             {this.state.preloading === true && 
               <IonCard>
@@ -76,7 +84,7 @@ class Search extends React.Component<SearchProps, SearchState> {
               </IonCard>
             }
             <IonCard>
-              <SearchForm showAnswer={this.showAnswer} showPreloader={this.showPreloader}/>
+              <SearchForm showAnswer={this.showAnswer} showPreloader={this.showPreloader} firstQuestion={this.state.firstQuestion}/>
             </IonCard>
             <div ref={this.el}></div>
           </div>

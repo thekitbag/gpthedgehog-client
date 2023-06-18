@@ -1,3 +1,8 @@
+.follow-up-placeholder-text {
+  color: rgba(32, 30, 30, 0.835);
+  font-size: 20px;
+}
+
 .placeholder-text {
     color: #000000;
     font-size: 24px;
@@ -5,12 +10,15 @@
 
 .hedgehog-answer {
     margin: 12px;
-    font-size: 18px;
+    font-size: 20px;
+    color: black;
+
 }
 
 .hedgehog-question {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
+    color: black;
 }
 
 .center {

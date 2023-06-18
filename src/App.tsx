@@ -2,6 +2,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -34,6 +35,9 @@ function App() {
           </Route>
           <Route exact path="/">
             <Redirect to="/home" />
+          </Route>
+          <Route exact path="/privacy-policy">
+            <PrivacyPolicy />
           </Route>
         </IonRouterOutlet>
       </IonReactRouter>

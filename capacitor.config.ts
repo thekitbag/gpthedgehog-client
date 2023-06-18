@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'client',
+  appId: 'hedgehog.fyi',
+  appName: 'Hedgehog',
   webDir: 'dist',
   bundledWebRuntime: false
 };

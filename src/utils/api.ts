@@ -1,13 +1,8 @@
 import axios from 'axios';
 
 interface GetParams {
-  queryString: string
+  queryString: string;
 }
-
-interface PostData {
-  data: object
-}
-
 
 const getUrlPrefix = () => {
   if (process.env.NODE_ENV === 'development') {
@@ -45,7 +40,7 @@ const getRequest = async (endpoint:string, params: GetParams) => {
   }
 }
 
-const postRequest = async (endpoint: string, data:PostData) => {
+const postRequest = async (endpoint: string, data:object) => {
   const headers = {
     'Content-Type': 'application/json'
   }
