@@ -65,7 +65,7 @@ class Search extends React.Component<SearchProps, SearchState> {
           <div>
             {this.state.previousQuestions.length > 0 && 
             this.state.previousQuestions.map((r, index)  =>
-                <AnswerCard thread={r.questionAnswerPair} key={index} />
+                <AnswerCard thread={r.questionAnswerPair} key={index} showPreloader={this.showPreloader}/>
             )}
             {this.state.preloading === true && 
               <IonCard>

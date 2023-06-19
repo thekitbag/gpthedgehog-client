@@ -4,6 +4,7 @@ import FollowUpQuestionForm from "../forms/followUpQuestionForm";
 
 interface AnswerCardProps {
     thread: {q:string, a:string}[];
+    showPreloader: () => void;
 }
 
 interface AnswerCardState {
@@ -23,7 +24,6 @@ class AnswerCard extends React.Component<AnswerCardProps, AnswerCardState> {
         this.setState({thread});
     }
     render() {
-        console.log(this.state)
         return  <IonCard>
                   <div>
                     {this.state.thread.map( i => 
@@ -34,7 +34,7 @@ class AnswerCard extends React.Component<AnswerCardProps, AnswerCardState> {
                         )
                     }
                   </div>
-                  <FollowUpQuestionForm thread={this.state.thread} showResponse={this.showResponse}/>
+                  <FollowUpQuestionForm thread={this.state.thread} showAnswer={this.showResponse} showPreloader={this.props.showPreloader}/>
                 </IonCard>
     }
 }

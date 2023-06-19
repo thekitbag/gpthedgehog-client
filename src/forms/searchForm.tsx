@@ -3,29 +3,10 @@ import { IonCol, IonGrid, IonInput, IonItem, IonRow } from '@ionic/react';
 import { IonButton } from '@ionic/react';
 import { InputChangeEventDetail } from '@ionic/core';
 import { getRequest, postRequest } from '../utils/api';
+import {QuestionForm, AskButton} from "./questionForms";
 
-interface ButtonProps {
-    onClick: () => void;
-}
 
-interface SearchFormProps {
-    showAnswer: (answer: string, question: string) => void;
-    showPreloader: () => void;
-    firstQuestion: boolean;
-}
-
-interface SearchFormState {
-    value: string;
-}
-
-class AskButton extends React.Component<ButtonProps> {
-    render() {
-        return <IonButton onClick={this.props.onClick} color='primary'>Ask</IonButton>
-    }
-}
-
-//this form and tother one should inherit from a single hedgehogForm Component
-class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
+class SearchForm extends QuestionForm {
 
     constructor(props: any) {
         super(props);
@@ -35,10 +16,6 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
         this.handleSubmit = this.handleSubmit.bind(this);
 
     }
-
-    handleChange(event: CustomEvent<InputChangeEventDetail>) {
-        this.setState({value: event.detail.value || ''});
-    } 
     
     async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -58,38 +35,13 @@ class SearchForm extends React.Component<SearchFormProps, SearchFormState> {
         this.setState({ value: '' });
     }
 
-    setPlaceholderText =() => {
+    placeholderText() {
         if (this.props.firstQuestion === true){
             return 'Ask me anything...'
         }
         else {
             return 'Ask me something else...'
         } 
-    }
-
-    render() {
-        return  <form onSubmit={this.handleSubmit}>
-                    <IonGrid>
-                        <IonRow>
-                            <IonCol size="12">
-                                <IonInput 
-                                    className="placeholder-text" 
-                                    type="text" size={240} 
-                                    onIonInput={this.handleChange}
-                                    value={this.state.value} 
-                                    color="dark" 
-                                    placeholder={this.setPlaceholderText()} />
-                            </IonCol>
-                        </IonRow>
-                        <IonRow>
-                            <IonCol size="12" class="ion-text-center">
-                                <AskButton
-                                    onClick={() => this.handleSubmit({ preventDefault: () => {} } as React.FormEvent<HTMLFormElement>)}
-                                />
-                            </IonCol>
-                        </IonRow>
-                    </IonGrid>
-                </form>
     }
 }
 
