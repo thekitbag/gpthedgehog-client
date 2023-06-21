@@ -3,6 +3,7 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import initGTM from './utils/gtm';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -24,6 +25,7 @@ import '@ionic/react/css/display.css';
 import './main.scss';
 
 setupIonicReact();
+initGTM();
 
 function App() {
   return (
