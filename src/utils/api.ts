@@ -58,4 +58,26 @@ const postRequest = async (endpoint: string, data:object) => {
   }
 }
 
-export {getRequest, postRequest}
+const postAudio = async (endpoint: string, blob: Blob) => {
+  const formData = new FormData();
+  formData.append('audio', blob);
+
+  const headers = {
+    'Content-Type': 'multipart/form-data'
+  };
+
+  const instance = axios.create({
+    withCredentials: true,
+    headers: headers
+  });
+
+  try {
+    const prefix = getUrlPrefix();
+    const req = await instance.post(prefix + endpoint, formData);
+    return req;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export {getRequest, postRequest, postAudio}

@@ -1,7 +1,4 @@
 import React from "react";
-import { IonCol, IonGrid, IonInput, IonItem, IonRow } from '@ionic/react';
-import { IonButton } from '@ionic/react';
-import { InputChangeEventDetail } from '@ionic/core';
 import { getRequest, postRequest } from '../utils/api';
 import {QuestionForm, AskButton} from "./questionForms";
 
@@ -15,6 +12,15 @@ class SearchForm extends QuestionForm {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
+    }
+
+    placeholderText(): string {
+        if (this.props.firstQuestion == true) {
+            return "Type your question here"
+        } else {
+            return "Type a new question here"
+        }
+        
     }
     
     async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -33,15 +39,6 @@ class SearchForm extends QuestionForm {
           }
         
         this.setState({ value: '' });
-    }
-
-    placeholderText() {
-        if (this.props.firstQuestion === true){
-            return 'Ask me anything...'
-        }
-        else {
-            return 'Ask me something else...'
-        } 
     }
 }
 

@@ -1,7 +1,8 @@
 import React from "react";
-import { IonCol, IonGrid, IonInput, IonItem, IonRow } from '@ionic/react';
+import { IonCol, IonGrid, IonInput, IonIcon, IonRow } from '@ionic/react';
 import { IonButton } from '@ionic/react';
 import { InputChangeEventDetail } from '@ionic/core';
+
 
 interface ButtonProps {
     onClick: () => void;
@@ -10,6 +11,7 @@ interface ButtonProps {
 interface QuestionFormProps {
     showAnswer: (answer: string, question: string) => void;
     showPreloader: () => void;
+    hidePreloader: () => void;
     firstQuestion?: boolean;
     thread?: {q:string, a:string}[];
 }
@@ -50,15 +52,20 @@ abstract class QuestionForm extends React.Component<QuestionFormProps, QuestionF
                                     type="text" size={240} 
                                     onIonInput={this.handleChange}
                                     value={this.state.value} 
-                                    color="dark" 
-                                    placeholder={this.placeholderText()} />
+                                    color="light" 
+                                    placeholder={this.placeholderText()} 
+                                    required="true"
+                                    autofocus="true"
+                                />
                             </IonCol>
                         </IonRow>
                         <IonRow>
                             <IonCol size="12" class="ion-text-center">
-                                <AskButton
-                                    onClick={() => this.handleSubmit({ preventDefault: () => {} } as React.FormEvent<HTMLFormElement>)}
-                                />
+                                {this.state.value && 
+                                    <AskButton
+                                        onClick={() => this.handleSubmit({ preventDefault: () => {} } as React.FormEvent<HTMLFormElement>)}
+                                    />
+                                }
                             </IonCol>
                         </IonRow>
                     </IonGrid>
