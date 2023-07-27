@@ -1,5 +1,5 @@
 .input-choice-header{
-    font-size: 26px;
+    font-size: inherit;
     color: black;
     text-align: center;
 }
@@ -8,4 +8,16 @@
     font-size: 16px;
     color: rgb(83, 81, 81);
     text-align: center;
+}
+
+.secondary-input-choice {
+    border: 2px solid grey;
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    font-size: 16px;
+}
+
+.primary-input-choice {
+    font-size: 20px;
 }

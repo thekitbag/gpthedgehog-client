@@ -2,6 +2,7 @@ import { IonCard, IonCardContent, IonCardHeader } from "@ionic/react";
 import React, { ReactNode } from "react";
 import FollowUpQuestionForm from "../forms/followUpQuestionForm";
 import InputChoice from "./inputChoice";
+import AudioQuestionRecorder from '../components/audioInput';
 
 interface AnswerCardProps {
     thread: {q:string, a:string}[];
@@ -11,12 +12,13 @@ interface AnswerCardProps {
 interface AnswerCardState {
     thread: {q:string, a:string}[];
     preloading: boolean;
+    inputChoice: string;
 }
 
 class AnswerCard extends React.Component<AnswerCardProps, AnswerCardState> {
     constructor (props: any) {
         super(props);
-        this.state = {thread: this.props.thread, preloading: false};
+        this.state = {thread: this.props.thread, preloading: false, inputChoice: 'undecided'};
     }
 
     showResponse = (answer: string, question: string) => {
@@ -27,11 +29,19 @@ class AnswerCard extends React.Component<AnswerCardProps, AnswerCardState> {
     }
 
     showPreloader = () => {
-        this.setState({preloading: true})
+        this.setState({preloading: true, inputChoice: 'undecided'})
     }
 
     hidePreloader = () => {
         this.setState({preloading: false})
+    }
+
+    chooseInput = (input: string) =>  {
+        this.setState({inputChoice: input})
+    }
+
+    tryAgain = () => {
+        this.setState({preloading: false, inputChoice: 'undecided'})
     }
 
     render() {
@@ -59,8 +69,17 @@ class AnswerCard extends React.Component<AnswerCardProps, AnswerCardState> {
                             </div>
                         </IonCard>
                     }
-                    {this.state.preloading === false &&
-                            <FollowUpQuestionForm thread={this.state.thread} showAnswer={this.showResponse} showPreloader={this.showPreloader} hidePreloader={this.hidePreloader}/>
+                    {this.state.preloading === false && this.state.inputChoice === 'undecided' &&
+                        <InputChoice chooseInput={this.chooseInput} title={'Ask a Follow Up Question'} subTitle={''} className={'secondary-input-choice'}/>    
+                    }
+                    {this.state.preloading === false && this.state.inputChoice === 'text' &&
+                        <FollowUpQuestionForm thread={this.state.thread} showAnswer={this.showResponse} showPreloader={this.showPreloader} hidePreloader={this.hidePreloader}/>
+                    }
+                    {this.state.preloading === false && this.state.inputChoice === 'mic' &&
+                        <>
+                        <h5>Audio follow-up questions are coming soon</h5>
+                        <FollowUpQuestionForm thread={this.state.thread} showAnswer={this.showResponse} showPreloader={this.showPreloader} hidePreloader={this.hidePreloader}/>
+                        </>
                     }
                 </IonCard>
     }

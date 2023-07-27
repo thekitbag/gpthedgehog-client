@@ -53,7 +53,7 @@ class Home extends React.Component<HomeProps, HomeState> {
     this.setState({
       previousQuestions,
       firstQuestion: false,
-      chosenInput: 'text',
+      chosenInput: 'undecided',
     });
   }
 
@@ -109,15 +109,19 @@ class Home extends React.Component<HomeProps, HomeState> {
             <IonRow>
               <IonCol>
                 {
-                this.state.chosenInput === 'undecided' &&
-                  <InputChoice chooseInput={this.chooseInput}/>
+                this.state.chosenInput === 'undecided' && this.state.firstQuestion === true &&
+                  <InputChoice chooseInput={this.chooseInput} title={'Ask Me Anything'} subTitle={'How do you want to ask your question?'} className={'primary-input-choice'}/>
+                }
+                {
+                this.state.chosenInput === 'undecided' && this.state.firstQuestion === false &&
+                  <InputChoice chooseInput={this.chooseInput} title={'Ask Me Something New'} subTitle={''} className={'primary-input-choice'}/>
                 }
                 {
                 this.state.chosenInput === 'text' && this.state.preloading === false &&
                   <Search showAnswer={this.showAnswer} showPreloader={this.showPreloader} firstQuestion={this.state.firstQuestion}/>
                 }
                 {
-                this.state.chosenInput === 'mic' &&
+                this.state.chosenInput === 'mic' && this.state.preloading === false &&
                   <AudioQuestionRecorder showAnswer={this.showAnswer} showPreloader={this.showPreloader} tryAgain={this.tryAgain}/>
                   /*<IonCard>
                     <IonCardHeader><h1>Audio Questions are coming soon</h1></IonCardHeader>
