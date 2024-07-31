@@ -1,0 +1,10 @@
+.img2-container {
+    background-image: url('/b2sdf.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 400px;
+    max-width: 540px;
+    background-size: 80%;
+    max-width: 900px;
+    margin: auto;
+}

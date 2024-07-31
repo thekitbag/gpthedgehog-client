@@ -12,8 +12,10 @@ class FollowUpQuestionForm extends QuestionForm {
     }
 
     placeholderText(): string {
-        return "Type a follow up question"
+        return "Ask a follow up question"
     }
+
+    inputClassName = 'follow-up-question-input'
 
     async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();

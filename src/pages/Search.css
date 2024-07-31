@@ -1,0 +1,133 @@
+.arc-ac {
+  height: 50px;
+  width: 50px;
+  margin: auto;
+}
+
+.arc-ac > audio-recorder-mic {
+  height:60px;
+  width: 100px;
+}
+
+.recording-prompt {
+  text-align: center;
+  color: #000000;
+  font-size: 24px;
+}
+
+.audio-recorder-bg {
+  position: fixed;
+  top: 0;
+  left:0;
+  height: 100%;
+  width: 100%;
+  background-color: #000000;
+  opacity: 0.4;
+  z-index: 2;
+}
+
+.audio-recorder-container {
+  position: fixed;
+  left: 5%;
+  top: 70%;
+  width: 90%;
+  height: 20%;
+  margin: auto;
+  z-index: 3;
+}
+
+ion-input::placeholder {  /* Target Ionic input elements */
+  font-size: 1.2em;       /* Adjust font size as needed */
+  font-weight: bold;     /* Make the placeholder bold */
+}
+
+
+.hedgehog-answer {
+    margin: 12px;
+    font-size: 20px;
+    color: black;
+}
+
+.hedgehog-question {
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+
+.center {
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(212, 215, 215);
+  }
+  
+.wave {
+  width: 5px;
+  height: 100px;
+  background: linear-gradient(45deg, grey, navy);
+  margin: 10px;
+  animation: wave 1s linear infinite;
+  border-radius: 20px;
+}
+.wave:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.wave:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.wave:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.wave:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.wave:nth-child(6) {
+  animation-delay: 0.5s;
+}
+.wave:nth-child(7) {
+  animation-delay: 0.6s;
+}
+.wave:nth-child(8) {
+  animation-delay: 0.7s;
+}
+.wave:nth-child(9) {
+  animation-delay: 0.8s;
+}
+.wave:nth-child(10) {
+  animation-delay: 0.9s;
+}
+
+@keyframes wave {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+.ion-card-title {
+  font-size: 30px;
+}
+
+.ion-card-content {
+  font-size: 30px;
+}
+
+.ion-input {
+  font-size: 20px;
+}
+
+.initial-question-input {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.follow-up-question-input {
+  font-size: 16px;
+  font-weight: 600;
+}

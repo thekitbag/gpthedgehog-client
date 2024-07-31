@@ -10,7 +10,8 @@ interface InputChoiceProps {
     chooseInput: (input: string) => void;
     title: string;
     subTitle: string;
-    className: string;
+    cardClass: string;
+    buttonClass: string;
 }
 
 class InputChoice extends React.Component <InputChoiceProps> {
@@ -19,18 +20,18 @@ class InputChoice extends React.Component <InputChoiceProps> {
     }
 
     render() {
-        return  <IonCard className={this.props.className}>
+        return  <IonCard className={this.props.cardClass}>
                     <IonCardHeader className="input-choice-header">{this.props.title}</IonCardHeader>
                     <IonCardSubtitle className="input-choice-subtitle">{this.props.subTitle}</IonCardSubtitle>
                     <IonRow>
                         <IonCol>
-                            <IonButton expand="block"  onClick={() => this.props.chooseInput('text')}>
+                            <IonButton className={this.props.buttonClass} expand="block"  onClick={() => this.props.chooseInput('text')}>
                                 <IonIcon slot="start" icon={pencilOutline}></IonIcon>
                                 Type it
                             </IonButton>
                         </IonCol>
                         <IonCol>
-                            <IonButton expand="block" onClick={() => this.props.chooseInput('mic')}>
+                            <IonButton className={this.props.buttonClass} expand="block" onClick={() => this.props.chooseInput('mic')}>
                                 <IonIcon slot="start" icon={micOutline}></IonIcon>
                                 Say it
                             </IonButton>

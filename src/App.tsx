@@ -1,7 +1,8 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
+import RouteNotFoundMessage from './pages/404';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import initGTM from './utils/gtm';
 
@@ -23,24 +24,40 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './main.scss';
+import Search from './pages/Search';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
 
 setupIonicReact();
 initGTM();
+
 
 function App() {
   return (
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route exact path="/home">
-            <Home />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-          <Route exact path="/privacy-policy">
-            <PrivacyPolicy />
-          </Route>
+          <Switch> 
+            <Redirect exact from="/home" to="/" /> 
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/search">
+              <Search />
+            </Route>
+            <Route exact path="/signup">
+              <Signup />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/privacy-policy">
+              <PrivacyPolicy />
+            </Route>
+            <Route path="*">
+              <RouteNotFoundMessage />
+            </Route>
+          </Switch>
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
@@ -48,3 +65,4 @@ function App() {
 }
 
 export default App;
+

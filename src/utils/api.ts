@@ -4,14 +4,6 @@ interface GetParams {
   queryString: string;
 }
 
-const getUrlPrefix = () => {
-  if (process.env.NODE_ENV === 'development') {
-    return'http://localhost:8000/api'
-  } else {
-    return'https://hedgehog-server.delightfulriver-36e65dc5.westeurope.azurecontainerapps.io/api'
-  }
-}
-
 const getRequest = async (endpoint:string, params: GetParams) => {
   const headers = {
     'Content-Type': 'application/json'
@@ -21,20 +13,18 @@ const getRequest = async (endpoint:string, params: GetParams) => {
     headers: headers
   })
 
-  const prefix = getUrlPrefix()
-
   try {
     if (params) {
-      const req = await instance.get(prefix + endpoint + '?' + params.queryString)
+      const req = await instance.get('api' + endpoint + '?' + params.queryString)
       return req
     } else {
-      const req = await instance.get(prefix + endpoint)
+      const req = await instance.get('api' + endpoint)
       return req
     }
 
   } catch (err:any) {
     if(err.response.status === 401) {
-      window.location.href = '/login'
+      //window.location.href = '/'
     }
     console.log(err)
   }
@@ -50,13 +40,28 @@ const postRequest = async (endpoint: string, data:object) => {
   })
 
   try {
-      const prefix = getUrlPrefix()
-      const req = await instance.post(prefix + endpoint, data)
-      return req
-  } catch (err) {
-    console.log(err)
+    const req = await instance.post('api' + endpoint, data);
+
+    if (req.status >= 200 && req.status < 300) {
+      // Success: Return the successful response
+      return req;  // <--- This was missing 
+    } else if (req.status === 400) {
+      // Bad Request: Handle validation errors from Flask
+      const errorData = req.data; // Assuming Flask sends error details in the response
+      throw new Error(errorData.error || 'Bad Request');
+    } else if (req.status === 409) {
+      // Conflict: Handle user already exists error
+      throw new Error('User already exists');
+    } else {
+      // Other Errors: Handle other error status codes from Flask
+      throw new Error('An error occurred during signup');
+    } 
+  }   catch (err:any) {
+      // Catch and log errors
+      console.error(err);
+      throw err; // Re-throw the error so it can be handled in your component
+    }
   }
-}
 
 const postAudio = async (endpoint: string, blob: Blob) => {
   const formData = new FormData();
@@ -72,8 +77,7 @@ const postAudio = async (endpoint: string, blob: Blob) => {
   });
 
   try {
-    const prefix = getUrlPrefix();
-    const req = await instance.post(prefix + endpoint, formData);
+    const req = await instance.post('api' + endpoint, formData);
     return req;
   } catch (err) {
     console.log(err);

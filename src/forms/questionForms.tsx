@@ -39,6 +39,7 @@ abstract class QuestionForm extends React.Component<QuestionFormProps, QuestionF
         this.setState({value: event.detail.value || ''});
     }
 
+    abstract inputClassName: string;
     abstract placeholderText(): string;
     abstract handleSubmit(event: React.FormEvent<HTMLFormElement>): void;
 
@@ -48,14 +49,15 @@ abstract class QuestionForm extends React.Component<QuestionFormProps, QuestionF
                         <IonRow>
                             <IonCol size="12">
                                 <IonInput 
-                                    className="placeholder-text" 
+                                    className={this.inputClassName} 
                                     type="text" size={240} 
                                     onIonInput={this.handleChange}
                                     value={this.state.value} 
-                                    color="light" 
+                                    color="primary" 
                                     placeholder={this.placeholderText()} 
                                     required="true"
                                     autofocus="true"
+
                                 />
                             </IonCol>
                         </IonRow>

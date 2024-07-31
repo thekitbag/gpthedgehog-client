@@ -18,7 +18,7 @@ interface AnswerCardState {
 class AnswerCard extends React.Component<AnswerCardProps, AnswerCardState> {
     constructor (props: any) {
         super(props);
-        this.state = {thread: this.props.thread, preloading: false, inputChoice: 'undecided'};
+        this.state = {thread: this.props.thread, preloading: false, inputChoice: 'text'};
     }
 
     showResponse = (answer: string, question: string) => {
@@ -29,7 +29,7 @@ class AnswerCard extends React.Component<AnswerCardProps, AnswerCardState> {
     }
 
     showPreloader = () => {
-        this.setState({preloading: true, inputChoice: 'undecided'})
+        this.setState({preloading: true, inputChoice: 'text'})
     }
 
     hidePreloader = () => {
@@ -41,7 +41,7 @@ class AnswerCard extends React.Component<AnswerCardProps, AnswerCardState> {
     }
 
     tryAgain = () => {
-        this.setState({preloading: false, inputChoice: 'undecided'})
+        this.setState({preloading: false, inputChoice: 'text'})
     }
 
     render() {
@@ -70,7 +70,7 @@ class AnswerCard extends React.Component<AnswerCardProps, AnswerCardState> {
                         </IonCard>
                     }
                     {this.state.preloading === false && this.state.inputChoice === 'undecided' &&
-                        <InputChoice chooseInput={this.chooseInput} title={'Ask a Follow Up Question'} subTitle={''} className={'secondary-input-choice'}/>    
+                        <InputChoice chooseInput={this.chooseInput} title={'Ask a Follow Up Question'} subTitle={''} cardClass={'secondary-input-choice'} buttonClass={'secondary-button'}/>    
                     }
                     {this.state.preloading === false && this.state.inputChoice === 'text' &&
                         <FollowUpQuestionForm thread={this.state.thread} showAnswer={this.showResponse} showPreloader={this.showPreloader} hidePreloader={this.hidePreloader}/>

@@ -16,12 +16,14 @@ class SearchForm extends QuestionForm {
 
     placeholderText(): string {
         if (this.props.firstQuestion == true) {
-            return "Type your question here"
+            return "Ask your question here"
         } else {
-            return "Type a new question here"
+            return "Ask a new question here"
         }
         
     }
+
+    inputClassName = 'initial-question-input'
     
     async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
