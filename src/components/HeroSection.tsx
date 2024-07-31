@@ -13,7 +13,7 @@ const HeroSection: React.FC = () => {
             <p>No need to trawl through useless search results, just the answer you want in language you can understand.</p>
           </IonText>
           <IonButton>
-            <Link className="btn-text" to="/signup">Sign Up</Link>
+            <Link className="btn-text" to="/signup">Sign Up for Free</Link>
           </IonButton>
         </IonCol>
         <IonCol size="12" sizeMd="6" className="ion-text-center"> 
