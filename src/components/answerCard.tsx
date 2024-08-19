@@ -1,8 +1,7 @@
 import { IonCard, IonCardContent, IonCardHeader } from "@ionic/react";
-import React, { ReactNode } from "react";
+import React from "react";
 import FollowUpQuestionForm from "../forms/followUpQuestionForm";
 import InputChoice from "./inputChoice";
-import AudioQuestionRecorder from '../components/audioInput';
 
 interface AnswerCardProps {
     thread: {q:string, a:string}[];

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { IonPage, IonContent, IonHeader, IonGrid, IonRow, IonCol } from "@ionic/react";
 import { useHistory } from "react-router-dom";
 import Header from "../components/Header";

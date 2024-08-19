@@ -5,18 +5,24 @@ import {
   IonItem,
   IonLabel,
   InputChangeEventDetail,
+  IonSpinner,
+  IonText,
 } from "@ionic/react";
 import { toastController } from "@ionic/core";
 import { postRequest } from "../utils/api";
 import { useHistory } from "react-router-dom";
 
 const LoginForm: React.FC = () => {
+
+  const history = useHistory();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null); 
 
   const handleInputChange = (event: CustomEvent<InputChangeEventDetail>) => {
     const element = event.target as HTMLIonInputElement;
@@ -27,49 +33,29 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 1. Basic Validation 
+
     if (!formData.email || !formData.password) {
-      const toast = await toastController.create({
-        message: "Please fill in both email and password.",
-        duration: 2000,
-        color: "danger",
-      });
-      toast.present();
-      return;
+        setFormError("Please fill in both email and password.");
+        return;
     }
 
     try {
+      setIsLoading(true);
+      setFormError(null); 
+
       const response = await postRequest("/login", formData);
       if (response.status >= 200 && response.status < 300) {
-        // Store the user ID or token here, if needed
-        localStorage.setItem("userId", response.data.user_id);
-
-        const toast = await toastController.create({
-          message: "Login successful!",
-          duration: 2000,
-          color: "success",
-        });
-        toast.present();
         history.push("/search"); // Redirect after login
       } else {
         const errorMessage =
           response.data.error || "Login failed. Please check your credentials.";
-        const toast = await toastController.create({
-          message: errorMessage,
-          duration: 2000,
-          color: "danger",
-        });
-        toast.present();
+        setFormError(errorMessage);
       }
     } catch (error) {
-      // Handle login errors
       console.error("Login failed:", error);
-      const toast = await toastController.create({
-        message: "Login failed. Please check your credentials.",
-        duration: 2000,
-        color: "danger",
-      });
-      toast.present();
+      setFormError("Login failed. Please check your credentials.");
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -98,8 +84,14 @@ const LoginForm: React.FC = () => {
       </IonItem>
       <input className="ion-hide" type="submit"/>
 
-      <IonButton type="submit" expand="block">
-        Login
+      {formError && <IonText className="error-message" color="danger">{formError}</IonText>}
+
+      <IonButton type="submit" expand="block" disabled={isLoading}> 
+        {isLoading ? ( 
+          <IonSpinner name="crescent" /> 
+        ) : (
+          "Sign Up"
+        )}
       </IonButton>
 
       <p className="ion-text-center">

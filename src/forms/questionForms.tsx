@@ -1,5 +1,5 @@
 import React from "react";
-import { IonCol, IonGrid, IonInput, IonIcon, IonRow } from '@ionic/react';
+import { IonCol, IonGrid, IonInput, IonRow } from '@ionic/react';
 import { IonButton } from '@ionic/react';
 import { InputChangeEventDetail } from '@ionic/core';
 
@@ -55,8 +55,8 @@ abstract class QuestionForm extends React.Component<QuestionFormProps, QuestionF
                                     value={this.state.value} 
                                     color="primary" 
                                     placeholder={this.placeholderText()} 
-                                    required="true"
-                                    autofocus="true"
+                                    required={true}
+                                    autofocus={true}
 
                                 />
                             </IonCol>

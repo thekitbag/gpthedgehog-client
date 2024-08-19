@@ -11,10 +11,14 @@ function isAuthenticated(): boolean {
 
 async function checkAuthStatus(): Promise<boolean> {
   try {
-    const response = await getRequest("/me", null); // Fetch user data if logged in
-    return response.status === 200; // 200 OK means authenticated
+    const response = await getRequest("/me");
+    if (response) { // Check if response exists
+      return response.status === 200;
+    } else {
+      return false; // Or handle the undefined response in a different way if needed
+    }
   } catch (error) {
-    return false; // Any error means not authenticated
+    return false; 
   }
 }
 

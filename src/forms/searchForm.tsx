@@ -1,6 +1,6 @@
 import React from "react";
-import { getRequest, postRequest } from '../utils/api';
-import {QuestionForm, AskButton} from "./questionForms";
+import { getRequest } from '../utils/api';
+import {QuestionForm} from "./questionForms";
 
 
 class SearchForm extends QuestionForm {

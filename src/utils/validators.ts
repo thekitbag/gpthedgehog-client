@@ -11,11 +11,13 @@ function passwordValidator(
   
     if (password.length < 8) {
       errors.password = "Password must be at least 8 characters long.";
-    }
+  } 
   
     if (password !== confirmPassword) {
       errors.confirmPassword = "Passwords do not match.";
-    }
+    } 
+
+    console.log(errors)
       
     return errors;
   }

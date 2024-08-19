@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   IonButton,
   IonButtons,
-  IonCol,
-  IonGrid,
   IonHeader,
-  IonRow,
   IonToolbar,
 } from "@ionic/react";
 import "./header.css";

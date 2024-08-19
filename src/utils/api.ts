@@ -4,7 +4,7 @@ interface GetParams {
   queryString: string;
 }
 
-const getRequest = async (endpoint:string, params: GetParams) => {
+const getRequest = async (endpoint:string, params?: GetParams) => {
   const headers = {
     'Content-Type': 'application/json'
   }

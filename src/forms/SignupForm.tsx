@@ -1,5 +1,4 @@
-import { InputChangeEventDetail, IonButton, IonInput, IonItem, IonLabel, useIonRouter } from "@ionic/react";
-import { toastController } from '@ionic/core';
+import { InputChangeEventDetail, IonButton, IonInput, IonItem, IonLabel, IonSpinner, IonText, useIonRouter } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { postRequest } from "../utils/api";
 import { useHistory } from 'react-router-dom';
@@ -8,86 +7,70 @@ import { passwordValidator } from "../utils/validators";
 
 const SignupForm: React.FC = () => {
 
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      });
-      
-      const handleInputChange = (event: CustomEvent<InputChangeEventDetail>) => {
-        const element = event.target as HTMLIonInputElement;
-        const { name, value } = element;
-        setFormData({ ...formData, [name]: value });
-      };
+  const history = useHistory();
 
-      const [shouldRedirect, setShouldRedirect] = useState(false);
-      
-      const history = useHistory();
-      
-      const [formErrors, setFormErrors] = useState({
-        password: "",
-        confirmPassword: "",
-      });
+  const [formData, setFormData] = useState({
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    });
     
-      const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+  const [isLoading, setIsLoading] = useState(false);
     
-        const errors = passwordValidator(formData.password, formData.confirmPassword);
-        setFormErrors(errors);
-        if(Object.keys(errors).length > 0) {
-          return
+  const [shouldRedirect, setShouldRedirect] = useState(false);
+
+  const [formErrors, setFormErrors] = useState({
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleInputChange = (event: CustomEvent<InputChangeEventDetail>) => {
+    const element = event.target as HTMLIonInputElement;
+    const { name, value } = element;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    const errors = passwordValidator(formData.password, formData.confirmPassword);
+    const updatedFormErrors = {
+      password: errors.password || "",
+      confirmPassword: errors.confirmPassword || "",
+    };
+  
+    setFormErrors(updatedFormErrors);
+
+    if (Object.keys(errors).length === 0) {
+      setIsLoading(true); 
+      try {
+        const response = await postRequest("/signup", formData);
+  
+        if (response.status >= 200 && response.status < 300) {
+          setShouldRedirect(true);
+        } else {
+          const errorMessage =
+            response.data.error || "An error occurred during signup.";
+          alert(errorMessage);
         }
-       
-        // Only proceed if there are no errors
-        if (Object.keys(errors).length === 0) {
-          try {
-            const response = await postRequest("/signup", formData);
-          
-            if (response.status >= 200 && response.status < 300) {
-              setShouldRedirect(true);
-              const toast = await toastController.create({
-                message: 'Sign up successful!',
-                duration: 2000,
-                color: 'success',
-              });
-              await toast.present();
-            } else {
-              const errorMessage = response.data.error || "An error occurred during signup.";
-              const toast = await toastController.create({
-                message: errorMessage,
-                duration: 2000,
-                color: "danger",
-              });
-              await toast.present();
-            }
-          } catch (error: any) {
-            const errorMessage = error?.response?.data?.error || "An error occurred.";
-            const toast = await toastController.create({
-              message: errorMessage,
-              duration: 2000,
-              color: "danger",
-            });
-            await toast.present();
-          }
-        }
-      };
+      } catch (error: any) {
+        const errorMessage = error?.response?.data?.error || "An error occurred.";
+        alert(errorMessage);
+      } finally {
+        setIsLoading(false); 
+      }
+    }
+  };
     
-      useEffect(() => {
-        if (shouldRedirect) {
-          (async () => {
-            const toast = await toastController.create({
-              message: 'Sign up successful!',
-              duration: 2000,
-              color: 'success',
-            });
-    
-            await toast.present(); 
-            history.push('/search'); 
-          })();
-        }
-      }, [shouldRedirect, history]); 
+  useEffect(() => {
+    if (shouldRedirect) {
+      (async () => {
+        history.push('/search'); 
+      })();
+    }
+  }, [shouldRedirect, history]); 
 
     return (
         <form onSubmit={handleSubmit}>
@@ -112,23 +95,28 @@ const SignupForm: React.FC = () => {
                 type="password" name="password" value={formData.password} onIonChange={handleInputChange} />
             </IonItem>
             {formErrors.password && (
-              <div className="error-message">{formErrors.password}</div>
+              <IonText className="error-message" color="danger">{formErrors.password}</IonText>
             )}
             <IonItem>
                 <IonLabel position="floating">Confirm Password</IonLabel>
                 <IonInput type="password" name="confirmPassword" value={formData.confirmPassword} onIonChange={handleInputChange} />
             </IonItem>
             {formErrors.confirmPassword && (
-              <div className="error-message">{formErrors.confirmPassword}</div>
+              <IonText className="error-message" color="danger">{formErrors.confirmPassword}</IonText>
             )}
-
-            {/* ... similar IonItems for password and confirm password */}
             
             <input className="ion-hide" type="submit"/>
 
-            <IonButton type="submit" expand="block">
-                Sign Up
+            
+
+            <IonButton type="submit" expand="block" disabled={isLoading}> 
+              {isLoading ? ( 
+                <IonSpinner name="crescent" /> 
+              ) : (
+                "Sign Up"
+              )}
             </IonButton>
+
 
             <p className="ion-text-center">
                 Already have an account? <a href="/login">Sign in</a>
