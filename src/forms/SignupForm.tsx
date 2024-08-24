@@ -29,7 +29,13 @@ const SignupForm: React.FC = () => {
   const handleInputChange = (event: CustomEvent<InputChangeEventDetail>) => {
     const element = event.target as HTMLIonInputElement;
     const { name, value } = element;
-    setFormData({ ...formData, [name]: value });
+  
+    setTimeout(() => {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }, 10); // Adjust the delay (in milliseconds) if needed
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
