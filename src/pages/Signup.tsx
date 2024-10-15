@@ -3,16 +3,16 @@ import { IonPage, IonContent, IonHeader, IonGrid, IonRow, IonCol } from "@ionic/
 import { useHistory } from "react-router-dom";
 import Header from "../components/Header";
 import SignupForm from "../forms/SignupForm";
-import checkAuthStatus from "../utils/auth";
+import getUserInfo from "../utils/auth";
 import "./Signup.css" 
 
 const SignupPage: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    checkAuthStatus().then((authenticated) => {
-      if (authenticated) {
-        history.replace("/search");
+    getUserInfo().then((userInfo) => {
+      if (userInfo.authenticated === true) {
+        history.replace("/search"); 
       }
     });
   }, [history]);

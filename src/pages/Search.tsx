@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonCol, IonContent, IonGrid, IonPage, IonRow, IonCard, IonButton, IonCardHeader, IonCardContent, IonText} from '@ionic/react';
+import { IonCol, IonContent, IonGrid, IonPage, IonRow, IonCard, IonButton, IonCardHeader, IonCardContent, IonText, IonCardTitle} from '@ionic/react';
 import Header from '../components/Header'
 import SearchBox from '../components/searchBox';
 import AnswerCard from '../components/answerCard';
@@ -7,8 +7,9 @@ import './Home.css';
 import './Search.css';
 import InputChoice from '../components/inputChoice';
 import AudioQuestionRecorder from '../components/audioInput';
+import UpgradeBanner from '../components/UpgradeBanner';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import checkAuthStatus from "../utils/auth";
+import getUserInfo from "../utils/auth";
 
 interface QuestionAnswerPair {
   q: string;
@@ -24,6 +25,10 @@ interface SearchState {
   preloading: boolean;
   previousQuestions: Threads[];
   firstQuestion: boolean;
+  userName: string;
+  subscriptionType: string;
+  remainingSearches: number;
+  userId: number;
 }
 
 interface SearchProps extends RouteComponentProps {
@@ -34,18 +39,34 @@ class Search extends React.Component<SearchProps, SearchState> {
 
   constructor(props: any) {
     super(props)
-    this.state = {chosenInput: 'text', preloading: false, previousQuestions: [], firstQuestion: true}
+    this.state = {chosenInput: 'text', 
+                  preloading: false,
+                  previousQuestions: [], 
+                  firstQuestion: true,
+                  userName: '',
+                  subscriptionType: '',
+                  remainingSearches: 0,
+                  userId: -1,
+                }
     this.el = React.createRef();
   }
 
   async componentDidMount() {
     try {
-      const authenticated = await checkAuthStatus();
-      if (!authenticated) {
-        this.props.history.replace("/login"); // Access history from props
+      const userInfo = await getUserInfo();
+      if (userInfo.authenticated === false) {
+        this.props.history.replace("/login"); 
       }
-    } catch (error) {
-      // ... error handling ...
+      else {
+        this.setState({userName: userInfo.userName, 
+                      subscriptionType: userInfo.subscriptionType, 
+                      remainingSearches: userInfo.searches,
+                      userId: userInfo.userId
+                    })
+      }
+    }
+    catch (error) {
+      console.log(error)
     }
   }
 
@@ -96,11 +117,16 @@ class Search extends React.Component<SearchProps, SearchState> {
         <IonContent fullscreen>
           <Header />
           <IonGrid>
+            <UpgradeBanner 
+              remainingSearches={this.state.remainingSearches} 
+              subscriptionType={this.state.subscriptionType}
+              userId={this.state.userId} 
+            />
           {this.state.previousQuestions.length == 0 && 
             <IonRow>
               <IonCol>
                 <IonText >
-                  <h1 className='ion-text-center'>What do you want to know?</h1>
+                  <h1 className='ion-text-center'>Hi {this.state.userName} What do you want to know?</h1>
                 </IonText>
               </IonCol>
             </IonRow>

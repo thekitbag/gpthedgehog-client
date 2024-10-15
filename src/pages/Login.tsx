@@ -3,15 +3,15 @@ import { IonPage, IonContent, IonHeader, IonGrid, IonRow, IonCol } from '@ionic/
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import LoginForm from '../forms/LoginForm';
-import checkAuthStatus from '../utils/auth';
+import getUserInfo from '../utils/auth';
 import './Login.css';
 
 const LoginPage: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    checkAuthStatus().then((authenticated) => {
-      if (authenticated) {
+    getUserInfo().then((userInfo) => {
+      if (userInfo.authenticated === true) {
         history.replace("/search"); // Redirect to search page if already logged in
       }
     });

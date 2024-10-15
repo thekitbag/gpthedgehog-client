@@ -1,25 +1,27 @@
 import { getRequest } from "./api";
 
-function isAuthenticated(): boolean {
-  const sessionCookie = document.cookie
-    .split('; ')
-    .find(row => row.startsWith('session='))
-    ?.split('=')[1];
-
-  return !!sessionCookie && document.cookie.includes('path=/');
+interface UserInfo {
+  authenticated: boolean;
+  searches: number;
+  userName: string;
+  subscriptionType: string;
+  userId: number;
 }
 
-async function checkAuthStatus(): Promise<boolean> {
+async function getUserInfo(): Promise<UserInfo> {
   try {
     const response = await getRequest("/me");
-    if (response) { // Check if response exists
-      return response.status === 200;
-    } else {
-      return false; // Or handle the undefined response in a different way if needed
+    if (response?.data.authenticated === true) {
+      return response.data
     }
+
+    else {
+      return {'authenticated' : false, searches: -1, userName: '', subscriptionType: '', userId: -1}
+    }
+     
   } catch (error) {
-    return false; 
+    return {'authenticated' : false, searches: -1, userName: '', subscriptionType: '', userId: -1}; 
   }
 }
 
-export default checkAuthStatus
+export default getUserInfo

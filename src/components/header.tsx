@@ -3,28 +3,32 @@ import {
   IonButton,
   IonButtons,
   IonHeader,
+  IonItem,
+  IonText,
   IonToolbar,
 } from "@ionic/react";
 import "./header.css";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { postRequest } from "../utils/api";
-import checkAuthStatus from "../utils/auth";
+import getUserInfo from "../utils/auth";
 
 const Header: React.FC = () => {
   const [isLoggedIn, setLoggedIn] = useState<boolean>(false); 
   const location = useLocation();
   const history = useHistory();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   useEffect(() => {
     let isMounted = true; // Flag to track component mounted state
   
     (async () => {
-      const authenticated = await checkAuthStatus();
+      const userInfo = await getUserInfo();
+      console.log(userInfo)
       if (isMounted) { // Update state only if component is still mounted
-        setLoggedIn(authenticated);
+
+        if (userInfo.authenticated === true) {
+          setLoggedIn(userInfo.authenticated);
+        }
+        
       }
     })();
   
